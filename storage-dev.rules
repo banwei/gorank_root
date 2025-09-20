@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// Temporary Development Rules - VERY PERMISSIVE (Use only for development!)
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Allow read and write access to all files during development
+    match /{allPaths=**} {
+      allow read, write: if true;
+    }
+  }
+}

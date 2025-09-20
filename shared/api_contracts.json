@@ -1,0 +1,431 @@
+{
+  "baseUrl": "http://localhost:4001",
+  "endpoints": {
+    "health": {
+      "method": "GET",
+      "path": "/health",
+      "description": "Health check endpoint"
+    },
+    "categories": {
+      "list": {
+        "method": "GET",
+        "path": "/categories",
+        "description": "Get all categories"
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/categories/:id",
+        "description": "Get category by ID"
+      },
+      "create": {
+        "method": "POST",
+        "path": "/categories",
+        "description": "Create new category",
+        "body": {
+          "name": "string",
+          "description": "string",
+          "iconName": "string",
+          "colorHex": "string",
+          "isActive": "boolean"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/categories/:id",
+        "description": "Update category"
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/categories/:id",
+        "description": "Delete category"
+      }
+    },
+    "users": {
+      "list": {
+        "method": "GET",
+        "path": "/users",
+        "description": "Get all users"
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/users/:id",
+        "description": "Get user by ID"
+      },
+      "create": {
+        "method": "POST",
+        "path": "/users",
+        "description": "Create new user",
+        "body": {
+          "username": "string",
+          "email": "string",
+          "profileImageUrl": "string?",
+          "interests": "string[]",
+          "isInfluencer": "boolean"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/users/:id",
+        "description": "Update user"
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/users/:id",
+        "description": "Delete user"
+      }
+    },
+    "items": {
+      "list": {
+        "method": "GET",
+        "path": "/items",
+        "description": "Get all items",
+        "queryParams": {
+          "category": "string?"
+        }
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/items/:id",
+        "description": "Get item by ID"
+      },
+      "create": {
+        "method": "POST",
+        "path": "/items",
+        "description": "Create new item",
+        "body": {
+          "name": "string",
+          "description": "string",
+          "imageUrl": "string?",
+          "category": "string",
+          "metadata": "object"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/items/:id",
+        "description": "Update item"
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/items/:id",
+        "description": "Delete item"
+      }
+    },
+    "usergroups": {
+      "list": {
+        "method": "GET",
+        "path": "/usergroups",
+        "description": "Get all user groups"
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/usergroups/:id",
+        "description": "Get user group by ID"
+      },
+      "create": {
+        "method": "POST",
+        "path": "/usergroups",
+        "description": "Create new user group",
+        "body": {
+          "name": "string",
+          "description": "string",
+          "creatorId": "string",
+          "memberIds": "string[]",
+          "categoryIds": "string[]",
+          "isPublic": "boolean"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/usergroups/:id",
+        "description": "Update user group"
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/usergroups/:id",
+        "description": "Delete user group"
+      },
+      "addMember": {
+        "method": "POST",
+        "path": "/usergroups/:id/members",
+        "description": "Add member to group",
+        "body": {
+          "userId": "string"
+        }
+      },
+      "removeMember": {
+        "method": "DELETE",
+        "path": "/usergroups/:id/members/:userId",
+        "description": "Remove member from group"
+      }
+    },
+    "lists": {
+      "list": {
+        "method": "GET",
+        "path": "/lists",
+        "description": "Get all lists",
+        "queryParams": {
+          "categoryId": "string?",
+          "status": "string?"
+        }
+      },
+      "trending": {
+        "method": "GET",
+        "path": "/lists/trending",
+        "description": "Get trending lists",
+        "queryParams": {
+          "limit": "number?"
+        },
+        "response": {
+          "lists": [
+            {
+              "id": "string",
+              "title": "string",
+              "categoryId": "string",
+              "popularity": "number",
+              "status": "string",
+              "itemsCount": "number"
+            }
+          ]
+        }
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/lists/:id",
+        "description": "Get list by ID",
+        "response": {
+          "id": "string",
+          "title": "string",
+          "categoryId": "string",
+          "status": "string",
+          "items": [
+            {
+              "id": "string",
+              "name": "string",
+              "imageUrl": "string"
+            }
+          ]
+        }
+      },
+      "create": {
+        "method": "POST",
+        "path": "/lists",
+        "description": "Create new list",
+        "body": {
+          "title": "string",
+          "categoryId": "string",
+          "items": "string[]",
+          "createdBy": "string",
+          "status": "string?"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/lists/:id",
+        "description": "Update list"
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/lists/:id",
+        "description": "Delete list"
+      },
+      "submitRanking": {
+        "method": "POST",
+        "path": "/lists/:id/rankings",
+        "description": "Submit ranking for a list",
+        "body": {
+          "userId": "string",
+          "rankedItemIds": "string[]",
+          "method": "string",
+          "groupType": "string",
+          "itemRatings": "object?"
+        },
+        "response": {
+          "ok": "boolean"
+        }
+      },
+      "getUserRanking": {
+        "method": "GET",
+        "path": "/lists/:listId/rankings/user/:userId",
+        "description": "Get user's ranking for a specific list"
+      },
+      "updateUserRanking": {
+        "method": "PUT",
+        "path": "/lists/:listId/rankings/user/:userId",
+        "description": "Update user's ranking for a specific list",
+        "body": {
+          "rankedItemIds": "string[]",
+          "method": "string",
+          "groupType": "string",
+          "itemRatings": "object?"
+        }
+      }
+    },
+    "rankings": {
+      "list": {
+        "method": "GET",
+        "path": "/rankings",
+        "description": "Get all rankings",
+        "queryParams": {
+          "listId": "string?",
+          "userId": "string?"
+        }
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/rankings/:id",
+        "description": "Get ranking by ID"
+      },
+      "create": {
+        "method": "POST",
+        "path": "/rankings",
+        "description": "Create new ranking",
+        "body": {
+          "userId": "string",
+          "listId": "string",
+          "rankedItemIds": "string[]",
+          "method": "string",
+          "groupType": "string",
+          "itemRatings": "object?"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/rankings/:id",
+        "description": "Update ranking"
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/rankings/:id",
+        "description": "Delete ranking"
+      },
+      "getStats": {
+        "method": "GET",
+        "path": "/rankings/stats/:listId",
+        "description": "Get ranking statistics for a list"
+      }
+    },
+    "follows": {
+      "follow": {
+        "method": "POST",
+        "path": "/users/:userId/follow",
+        "description": "Follow a user",
+        "body": {
+          "followerId": "string"
+        }
+      },
+      "unfollow": {
+        "method": "DELETE",
+        "path": "/users/:userId/follow/:followerId",
+        "description": "Unfollow a user"
+      },
+      "getFollowers": {
+        "method": "GET",
+        "path": "/users/:userId/followers",
+        "description": "Get user's followers",
+        "queryParams": {
+          "page": "number?",
+          "limit": "number?"
+        }
+      },
+      "getFollowing": {
+        "method": "GET",
+        "path": "/users/:userId/following",
+        "description": "Get users that this user is following",
+        "queryParams": {
+          "page": "number?",
+          "limit": "number?"
+        }
+      },
+      "getFollowStats": {
+        "method": "GET",
+        "path": "/users/:userId/follow-stats",
+        "description": "Get follow counts for a user",
+        "response": {
+          "followersCount": "number",
+          "followingCount": "number",
+          "isFollowing": "boolean?"
+        }
+      },
+      "checkFollowStatus": {
+        "method": "GET",
+        "path": "/users/:userId/follow-status/:followerId",
+        "description": "Check if one user follows another",
+        "response": {
+          "isFollowing": "boolean"
+        }
+      }
+    }
+  },
+  "models": {
+    "Category": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "iconName": "string",
+      "colorHex": "string",
+      "isActive": "boolean",
+      "createdAt": "string"
+    },
+    "User": {
+      "id": "string",
+      "username": "string",
+      "email": "string",
+      "profileImageUrl": "string?",
+      "interests": "string[]",
+      "createdAt": "string",
+      "isInfluencer": "boolean"
+    },
+    "Item": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "imageUrl": "string?",
+      "category": "string",
+      "metadata": "object",
+      "createdAt": "string"
+    },
+    "UserGroup": {
+      "id": "string",
+      "name": "string",
+      "description": "string",
+      "creatorId": "string",
+      "memberIds": "string[]",
+      "categoryIds": "string[]",
+      "isPublic": "boolean",
+      "createdAt": "string"
+    },
+    "ListEntity": {
+      "id": "string",
+      "title": "string",
+      "categoryId": "string",
+      "status": "string",
+      "items": "string[]",
+      "popularity": "number?",
+      "itemsCount": "number?",
+      "createdAt": "string?",
+      "createdBy": "string?"
+    },
+    "UserRanking": {
+      "id": "string",
+      "userId": "string",
+      "listId": "string",
+      "rankedItemIds": "string[]",
+      "method": "string",
+      "groupType": "string",
+      "createdAt": "string",
+      "itemRatings": "object"
+    },
+    "UserFollow": {
+      "id": "string",
+      "followerId": "string",
+      "followingId": "string",
+      "createdAt": "string"
+    },
+    "FollowStats": {
+      "followersCount": "number",
+      "followingCount": "number",
+      "isFollowing": "boolean?"
+    }
+  }
+}
