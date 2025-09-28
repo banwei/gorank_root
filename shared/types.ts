@@ -11,6 +11,13 @@ export interface Category {
   createdAt: string;
 }
 
+export enum UserRole {
+  USER = 'user',
+  MODERATOR = 'moderator',
+  ADMIN = 'admin',
+  SUPERADMIN = 'superadmin'
+}
+
 export interface User {
   id: string;
   username: string;
@@ -19,6 +26,7 @@ export interface User {
   interests: string[];
   createdAt: string;
   isInfluencer: boolean;
+  role: UserRole;
 }
 
 export interface Item {
@@ -115,6 +123,7 @@ export interface CreateUserRequest {
   profileImageUrl?: string;
   interests?: string[];
   isInfluencer?: boolean;
+  role?: UserRole;
 }
 
 export interface UpdateUserRequest {
@@ -123,6 +132,7 @@ export interface UpdateUserRequest {
   profileImageUrl?: string;
   interests?: string[];
   isInfluencer?: boolean;
+  role?: UserRole;
 }
 
 export interface CreateItemRequest {

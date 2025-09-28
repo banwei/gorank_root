@@ -41,6 +41,40 @@ class Category {
       };
 }
 
+enum UserRole {
+  user,
+  moderator,
+  admin,
+  superadmin;
+
+  static UserRole fromString(String role) {
+    switch (role.toLowerCase()) {
+      case 'superadmin':
+        return UserRole.superadmin;
+      case 'admin':
+        return UserRole.admin;
+      case 'moderator':
+        return UserRole.moderator;
+      case 'user':
+      default:
+        return UserRole.user;
+    }
+  }
+
+  String toStringValue() {
+    switch (this) {
+      case UserRole.superadmin:
+        return 'superadmin';
+      case UserRole.admin:
+        return 'admin';
+      case UserRole.moderator:
+        return 'moderator';
+      case UserRole.user:
+        return 'user';
+    }
+  }
+}
+
 class User {
   final String id;
   final String username;
@@ -49,6 +83,7 @@ class User {
   final List<String> interests;
   final String createdAt;
   final bool isInfluencer;
+  final UserRole role;
 
   User({
     required this.id,
@@ -58,6 +93,7 @@ class User {
     required this.interests,
     required this.createdAt,
     required this.isInfluencer,
+    this.role = UserRole.user,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -68,6 +104,7 @@ class User {
         interests: List<String>.from(json['interests'] as List),
         createdAt: json['createdAt'] as String,
         isInfluencer: json['isInfluencer'] as bool,
+        role: UserRole.fromString(json['role'] as String? ?? 'user'),
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,7 +115,12 @@ class User {
         'interests': interests,
         'createdAt': createdAt,
         'isInfluencer': isInfluencer,
+        'role': role.toStringValue(),
       };
+
+  bool get isAdmin => role == UserRole.admin || role == UserRole.superadmin;
+  bool get isModerator => role == UserRole.moderator || role == UserRole.admin || role == UserRole.superadmin;
+  bool get hasAdminAccess => role == UserRole.moderator || role == UserRole.admin || role == UserRole.superadmin;
 }
 
 class Item {
@@ -292,6 +334,7 @@ class CreateUserRequest {
   final String? profileImageUrl;
   final List<String>? interests;
   final bool? isInfluencer;
+  final UserRole? role;
 
   CreateUserRequest({
     required this.username,
@@ -299,6 +342,7 @@ class CreateUserRequest {
     this.profileImageUrl,
     this.interests,
     this.isInfluencer,
+    this.role,
   });
 
   Map<String, dynamic> toJson() => {
@@ -307,6 +351,7 @@ class CreateUserRequest {
         if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
         if (interests != null) 'interests': interests,
         if (isInfluencer != null) 'isInfluencer': isInfluencer,
+        if (role != null) 'role': role!.toStringValue(),
       };
 }
 
