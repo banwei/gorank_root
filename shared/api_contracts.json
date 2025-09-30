@@ -109,6 +109,90 @@
         "method": "DELETE",
         "path": "/items/:id",
         "description": "Delete item"
+      },
+      "popular": {
+        "method": "GET",
+        "path": "/items/popular",
+        "description": "Get popular items based on ranking data",
+        "queryParams": {
+          "limit": "number?",
+          "category": "string?"
+        },
+        "response": {
+          "items": [
+            {
+              "id": "string",
+              "name": "string",
+              "description": "string",
+              "imageUrl": "string?",
+              "category": "string",
+              "popularityScore": "number",
+              "rankingCount": "number",
+              "averagePosition": "number"
+            }
+          ]
+        }
+      },
+      "enhance": {
+        "method": "POST",
+        "path": "/items/:id/enhance",
+        "description": "Enhance a single item with GenAI data including description, image, and external links",
+        "response": {
+          "success": "boolean",
+          "item": {
+            "id": "string",
+            "name": "string",
+            "description": "string",
+            "imageUrl": "string?",
+            "category": "string",
+            "tags": "string[]?",
+            "wikipediaUrl": "string?",
+            "officialWebsite": "string?",
+            "enhancedAt": "string",
+            "enhancedBy": "string"
+          },
+          "enhancement": {
+            "description": "string",
+            "imageUrl": "string?",
+            "wikipediaUrl": "string?",
+            "officialWebsite": "string?",
+            "category": "string",
+            "tags": "string[]"
+          }
+        }
+      },
+      "enhanceBatch": {
+        "method": "POST",
+        "path": "/items/enhance-batch",
+        "description": "Enhance multiple items with GenAI data in batch",
+        "body": {
+          "itemIds": "string[]",
+          "category": "string?"
+        },
+        "response": {
+          "success": "boolean",
+          "results": [
+            {
+              "id": "string",
+              "success": "boolean",
+              "name": "string?",
+              "skipped": "boolean?",
+              "reason": "string?",
+              "error": "string?",
+              "enhancement": {
+                "description": "string?",
+                "imageUrl": "string?",
+                "category": "string?"
+              }
+            }
+          ],
+          "summary": {
+            "total": "number",
+            "successful": "number",
+            "failed": "number",
+            "skipped": "number"
+          }
+        }
       }
     },
     "usergroups": {

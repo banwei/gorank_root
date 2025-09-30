@@ -128,6 +128,7 @@ class Item {
   final String name;
   final String description;
   final String? imageUrl;
+  final String? thumbnailUrl; // Added thumbnail URL
   final String category;
   final Map<String, dynamic> metadata;
   final String createdAt;
@@ -137,6 +138,7 @@ class Item {
     required this.name,
     required this.description,
     this.imageUrl,
+    this.thumbnailUrl, // Added thumbnail URL parameter
     required this.category,
     required this.metadata,
     required this.createdAt,
@@ -147,6 +149,7 @@ class Item {
         name: json['name'] as String,
         description: json['description'] as String,
         imageUrl: json['imageUrl'] as String?,
+        thumbnailUrl: json['thumbnailUrl'] as String?, // Added thumbnail URL from JSON
         category: json['category'] as String,
         metadata: json['metadata'] as Map<String, dynamic>,
         createdAt: json['createdAt'] as String,
@@ -157,9 +160,52 @@ class Item {
         'name': name,
         'description': description,
         'imageUrl': imageUrl,
+        'thumbnailUrl': thumbnailUrl, // Added thumbnail URL to JSON
         'category': category,
         'metadata': metadata,
         'createdAt': createdAt,
+      };
+}
+
+class PopularItem extends Item {
+  final double popularityScore;
+  final int rankingCount;
+  final double averagePosition;
+
+  PopularItem({
+    required super.id,
+    required super.name,
+    required super.description,
+    super.imageUrl,
+    super.thumbnailUrl, // Added thumbnail URL parameter
+    required super.category,
+    required super.metadata,
+    required super.createdAt,
+    required this.popularityScore,
+    required this.rankingCount,
+    required this.averagePosition,
+  });
+
+  factory PopularItem.fromJson(Map<String, dynamic> json) => PopularItem(
+        id: json['id'] as String,
+        name: json['name'] as String,
+        description: json['description'] as String,
+        imageUrl: json['imageUrl'] as String?,
+        thumbnailUrl: json['thumbnailUrl'] as String?, // Added thumbnail URL from JSON
+        category: json['category'] as String,
+        metadata: json['metadata'] as Map<String, dynamic>,
+        createdAt: json['createdAt'] as String,
+        popularityScore: (json['popularityScore'] as num).toDouble(),
+        rankingCount: json['rankingCount'] as int,
+        averagePosition: (json['averagePosition'] as num).toDouble(),
+      );
+
+  @override
+  Map<String, dynamic> toJson() => {
+        ...super.toJson(),
+        'popularityScore': popularityScore,
+        'rankingCount': rankingCount,
+        'averagePosition': averagePosition,
       };
 }
 

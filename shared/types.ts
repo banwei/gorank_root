@@ -34,9 +34,24 @@ export interface Item {
   name: string;
   description: string;
   imageUrl?: string;
+  thumbnailUrl?: string; // Added thumbnail URL
   category: string;
   metadata: Record<string, any>;
   createdAt: string;
+  // GenAI Enhancement fields
+  tags?: string[];
+  wikipediaUrl?: string;
+  officialWebsite?: string;
+  imagePath?: string;
+  thumbnailPath?: string; // Added thumbnail path
+  enhancedAt?: string;
+  enhancedBy?: string;
+}
+
+export interface PopularItem extends Item {
+  popularityScore: number;
+  rankingCount: number;
+  averagePosition: number;
 }
 
 export interface UserGroup {
@@ -227,6 +242,11 @@ export interface ListsQueryParams {
 }
 
 export interface ItemsQueryParams {
+  category?: string;
+}
+
+export interface PopularItemsQueryParams {
+  limit?: number;
   category?: string;
 }
 
