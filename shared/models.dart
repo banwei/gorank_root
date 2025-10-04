@@ -132,6 +132,8 @@ class Item {
   final String category;
   final Map<String, dynamic> metadata;
   final String createdAt;
+  final String? officialWebsite; // Added official website field
+  final String? wikipediaUrl; // Added wikipedia URL field
 
   Item({
     required this.id,
@@ -142,6 +144,8 @@ class Item {
     required this.category,
     required this.metadata,
     required this.createdAt,
+    this.officialWebsite, // Added official website parameter
+    this.wikipediaUrl, // Added wikipedia URL parameter
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -153,6 +157,8 @@ class Item {
         category: json['category'] as String,
         metadata: json['metadata'] as Map<String, dynamic>,
         createdAt: json['createdAt'] as String,
+        officialWebsite: json['officialWebsite'] as String?, // Added official website from JSON
+        wikipediaUrl: json['wikipediaUrl'] as String?, // Added wikipedia URL from JSON
       );
 
   Map<String, dynamic> toJson() => {
@@ -164,6 +170,8 @@ class Item {
         'category': category,
         'metadata': metadata,
         'createdAt': createdAt,
+        'officialWebsite': officialWebsite, // Added official website to JSON
+        'wikipediaUrl': wikipediaUrl, // Added wikipedia URL to JSON
       };
 }
 
@@ -181,6 +189,8 @@ class PopularItem extends Item {
     required super.category,
     required super.metadata,
     required super.createdAt,
+    super.officialWebsite, // Added official website parameter
+    super.wikipediaUrl, // Added wikipedia URL parameter
     required this.popularityScore,
     required this.rankingCount,
     required this.averagePosition,
@@ -195,6 +205,8 @@ class PopularItem extends Item {
         category: json['category'] as String,
         metadata: json['metadata'] as Map<String, dynamic>,
         createdAt: json['createdAt'] as String,
+        officialWebsite: json['officialWebsite'] as String?, // Added official website from JSON
+        wikipediaUrl: json['wikipediaUrl'] as String?, // Added wikipedia URL from JSON
         popularityScore: (json['popularityScore'] as num).toDouble(),
         rankingCount: json['rankingCount'] as int,
         averagePosition: (json['averagePosition'] as num).toDouble(),
