@@ -524,3 +524,68 @@ class CreateFollowRequest {
         'followerId': followerId,
       };
 }
+
+class CreateUserGroupRequest {
+  final String name;
+  final String description;
+  final String creatorId;
+  final List<String> memberIds;
+  final List<String> categoryIds;
+  final bool isPublic;
+
+  CreateUserGroupRequest({
+    required this.name,
+    required this.description,
+    required this.creatorId,
+    this.memberIds = const [],
+    this.categoryIds = const [],
+    this.isPublic = true,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'description': description,
+        'creatorId': creatorId,
+        'memberIds': memberIds,
+        'categoryIds': categoryIds,
+        'isPublic': isPublic,
+      };
+}
+
+class UpdateUserGroupRequest {
+  final String? name;
+  final String? description;
+  final List<String>? memberIds;
+  final List<String>? categoryIds;
+  final bool? isPublic;
+
+  UpdateUserGroupRequest({
+    this.name,
+    this.description,
+    this.memberIds,
+    this.categoryIds,
+    this.isPublic,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = {};
+    if (name != null) json['name'] = name;
+    if (description != null) json['description'] = description;
+    if (memberIds != null) json['memberIds'] = memberIds;
+    if (categoryIds != null) json['categoryIds'] = categoryIds;
+    if (isPublic != null) json['isPublic'] = isPublic;
+    return json;
+  }
+}
+
+class AddMemberRequest {
+  final String userId;
+
+  AddMemberRequest({
+    required this.userId,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+      };
+}
