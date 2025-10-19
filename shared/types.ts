@@ -85,6 +85,7 @@ export interface UserRanking {
   method: string;
   groupType: string;
   createdAt: string;
+  updatedAt: string;
   itemRatings: Record<string, number>;
 }
 
@@ -99,6 +100,26 @@ export interface FollowStats {
   followersCount: number;
   followingCount: number;
   isFollowing?: boolean;
+}
+
+export interface RankingComment {
+  id: string;
+  listId: string; // Primary: comment belongs to a list
+  rankingId?: string; // Optional: comment can be linked to a specific ranking
+  userId: string;
+  username: string;
+  userProfileImageUrl?: string;
+  text: string;
+  likeCount: number;
+  likedByCurrentUser?: boolean;
+  createdAt: string;
+}
+
+export interface CommentLike {
+  id: string;
+  commentId: string;
+  userId: string;
+  createdAt: string;
 }
 
 // Deprecated - keeping for backward compatibility
@@ -216,6 +237,21 @@ export interface CreateFollowRequest {
 }
 
 export interface FollowQueryParams {
+  page?: number;
+  limit?: number;
+}
+
+export interface CreateCommentRequest {
+  userId: string;
+  text: string;
+  rankingId?: string; // Optional: link comment to a specific ranking
+}
+
+export interface LikeCommentRequest {
+  userId: string;
+}
+
+export interface CommentsQueryParams {
   page?: number;
   limit?: number;
 }

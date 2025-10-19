@@ -321,6 +321,7 @@ class UserRanking {
   final String method;
   final String groupType;
   final String createdAt;
+  final String updatedAt;
   final Map<String, double> itemRatings;
 
   UserRanking({
@@ -331,6 +332,7 @@ class UserRanking {
     required this.method,
     required this.groupType,
     required this.createdAt,
+    required this.updatedAt,
     required this.itemRatings,
   });
 
@@ -342,6 +344,7 @@ class UserRanking {
         method: json['method'] as String,
         groupType: json['groupType'] as String,
         createdAt: json['createdAt'] as String,
+        updatedAt: json['updatedAt'] as String? ?? json['createdAt'] as String, // Fallback to createdAt for backward compatibility
         itemRatings: Map<String, double>.from(
           (json['itemRatings'] as Map<String, dynamic>).map(
             (key, value) => MapEntry(key, (value as num).toDouble()),
@@ -357,6 +360,7 @@ class UserRanking {
         'method': method,
         'groupType': groupType,
         'createdAt': createdAt,
+        'updatedAt': updatedAt,
         'itemRatings': itemRatings,
       };
 }
@@ -582,6 +586,81 @@ class AddMemberRequest {
   final String userId;
 
   AddMemberRequest({
+    required this.userId,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+      };
+}
+
+class RankingComment {
+  final String id;
+  final String rankingId;
+  final String userId;
+  final String username;
+  final String? userProfileImageUrl;
+  final String text;
+  final int likeCount;
+  final bool? likedByCurrentUser;
+  final String createdAt;
+
+  RankingComment({
+    required this.id,
+    required this.rankingId,
+    required this.userId,
+    required this.username,
+    this.userProfileImageUrl,
+    required this.text,
+    required this.likeCount,
+    this.likedByCurrentUser,
+    required this.createdAt,
+  });
+
+  factory RankingComment.fromJson(Map<String, dynamic> json) => RankingComment(
+        id: json['id'] as String,
+        rankingId: json['rankingId'] as String,
+        userId: json['userId'] as String,
+        username: json['username'] as String,
+        userProfileImageUrl: json['userProfileImageUrl'] as String?,
+        text: json['text'] as String,
+        likeCount: json['likeCount'] as int,
+        likedByCurrentUser: json['likedByCurrentUser'] as bool?,
+        createdAt: json['createdAt'] as String,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'rankingId': rankingId,
+        'userId': userId,
+        'username': username,
+        'userProfileImageUrl': userProfileImageUrl,
+        'text': text,
+        'likeCount': likeCount,
+        'likedByCurrentUser': likedByCurrentUser,
+        'createdAt': createdAt,
+      };
+}
+
+class CreateCommentRequest {
+  final String userId;
+  final String text;
+
+  CreateCommentRequest({
+    required this.userId,
+    required this.text,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+        'text': text,
+      };
+}
+
+class LikeCommentRequest {
+  final String userId;
+
+  LikeCommentRequest({
     required this.userId,
   });
 

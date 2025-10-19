@@ -439,6 +439,47 @@
           "isFollowing": "boolean"
         }
       }
+    },
+    "comments": {
+      "list": {
+        "method": "GET",
+        "path": "/lists/:listId/comments",
+        "description": "Get all comments for a list (optionally filter by ranking)",
+        "queryParams": {
+          "page": "number?",
+          "limit": "number?",
+          "rankingId": "string?",
+          "userId": "string?"
+        }
+      },
+      "create": {
+        "method": "POST",
+        "path": "/lists/:listId/comments",
+        "description": "Create a comment on a list (optionally link to a ranking)",
+        "body": {
+          "userId": "string",
+          "text": "string",
+          "rankingId": "string?"
+        }
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/comments/:id",
+        "description": "Delete a comment"
+      },
+      "like": {
+        "method": "POST",
+        "path": "/comments/:id/like",
+        "description": "Like a comment",
+        "body": {
+          "userId": "string"
+        }
+      },
+      "unlike": {
+        "method": "DELETE",
+        "path": "/comments/:id/like/:userId",
+        "description": "Unlike a comment"
+      }
     }
   },
   "models": {
@@ -510,6 +551,18 @@
       "followersCount": "number",
       "followingCount": "number",
       "isFollowing": "boolean?"
+    },
+    "RankingComment": {
+      "id": "string",
+      "listId": "string",
+      "rankingId": "string?",
+      "userId": "string",
+      "username": "string",
+      "userProfileImageUrl": "string?",
+      "text": "string",
+      "likeCount": "number",
+      "likedByCurrentUser": "boolean?",
+      "createdAt": "string"
     }
   }
 }
