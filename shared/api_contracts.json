@@ -68,6 +68,19 @@
         "path": "/users/:id",
         "description": "Update user"
       },
+      "updateLocation": {
+        "method": "PUT",
+        "path": "/users/:id/location",
+        "description": "Update user's current location",
+        "body": {
+          "latitude": "number",
+          "longitude": "number",
+          "accuracy": "number?",
+          "address": "string?",
+          "city": "string?",
+          "country": "string?"
+        }
+      },
       "delete": {
         "method": "DELETE",
         "path": "/users/:id",
@@ -269,6 +282,31 @@
               "popularity": "number",
               "status": "string",
               "itemsCount": "number"
+            }
+          ]
+        }
+      },
+      "forYou": {
+        "method": "POST",
+        "path": "/lists/for-you",
+        "description": "Get personalized list recommendations based on user location and interests",
+        "body": {
+          "userId": "string",
+          "latitude": "number?",
+          "longitude": "number?",
+          "limit": "number?"
+        },
+        "response": {
+          "lists": [
+            {
+              "id": "string",
+              "title": "string",
+              "categoryId": "string",
+              "popularity": "number",
+              "status": "string",
+              "itemsCount": "number",
+              "relevanceScore": "number",
+              "relevanceReason": "string"
             }
           ]
         }
@@ -490,7 +528,8 @@
       "iconName": "string",
       "colorHex": "string",
       "isActive": "boolean",
-      "createdAt": "string"
+      "createdAt": "string",
+      "isLocationBased": "boolean?"
     },
     "User": {
       "id": "string",
@@ -499,7 +538,17 @@
       "profileImageUrl": "string?",
       "interests": "string[]",
       "createdAt": "string",
-      "isInfluencer": "boolean"
+      "isInfluencer": "boolean",
+      "location": "GeoLocation?"
+    },
+    "GeoLocation": {
+      "latitude": "number",
+      "longitude": "number",
+      "accuracy": "number?",
+      "timestamp": "string?",
+      "address": "string?",
+      "city": "string?",
+      "country": "string?"
     },
     "Item": {
       "id": "string",
@@ -508,7 +557,8 @@
       "imageUrl": "string?",
       "category": "string",
       "metadata": "object",
-      "createdAt": "string"
+      "createdAt": "string",
+      "location": "GeoLocation?"
     },
     "UserGroup": {
       "id": "string",
@@ -518,7 +568,8 @@
       "memberIds": "string[]",
       "categoryIds": "string[]",
       "isPublic": "boolean",
-      "createdAt": "string"
+      "createdAt": "string",
+      "location": "GeoLocation?"
     },
     "ListEntity": {
       "id": "string",
@@ -529,7 +580,8 @@
       "popularity": "number?",
       "itemsCount": "number?",
       "createdAt": "string?",
-      "createdBy": "string?"
+      "createdBy": "string?",
+      "location": "GeoLocation?"
     },
     "UserRanking": {
       "id": "string",

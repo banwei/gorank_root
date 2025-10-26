@@ -1,6 +1,47 @@
 // shared/models.dart
 // Dart models for Flutter frontend use
 
+// Location model
+class GeoLocation {
+  final double latitude;
+  final double longitude;
+  final double? accuracy;
+  final String? timestamp;
+  final String? address;
+  final String? city;
+  final String? country;
+
+  GeoLocation({
+    required this.latitude,
+    required this.longitude,
+    this.accuracy,
+    this.timestamp,
+    this.address,
+    this.city,
+    this.country,
+  });
+
+  factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
+        latitude: (json['latitude'] as num).toDouble(),
+        longitude: (json['longitude'] as num).toDouble(),
+        accuracy: json['accuracy'] != null ? (json['accuracy'] as num).toDouble() : null,
+        timestamp: json['timestamp'] as String?,
+        address: json['address'] as String?,
+        city: json['city'] as String?,
+        country: json['country'] as String?,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'latitude': latitude,
+        'longitude': longitude,
+        if (accuracy != null) 'accuracy': accuracy,
+        if (timestamp != null) 'timestamp': timestamp,
+        if (address != null) 'address': address,
+        if (city != null) 'city': city,
+        if (country != null) 'country': country,
+      };
+}
+
 class Category {
   final String id;
   final String name;
@@ -9,6 +50,7 @@ class Category {
   final String colorHex;
   final bool isActive;
   final String createdAt;
+  final bool? isLocationBased;
 
   Category({
     required this.id,
@@ -18,6 +60,7 @@ class Category {
     required this.colorHex,
     required this.isActive,
     required this.createdAt,
+    this.isLocationBased,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
@@ -28,6 +71,7 @@ class Category {
         colorHex: json['colorHex'] as String,
         isActive: json['isActive'] as bool,
         createdAt: json['createdAt'] as String,
+        isLocationBased: json['isLocationBased'] as bool?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,6 +82,7 @@ class Category {
         'colorHex': colorHex,
         'isActive': isActive,
         'createdAt': createdAt,
+        if (isLocationBased != null) 'isLocationBased': isLocationBased,
       };
 }
 
@@ -84,6 +129,7 @@ class User {
   final String createdAt;
   final bool isInfluencer;
   final UserRole role;
+  final GeoLocation? location;
 
   User({
     required this.id,
@@ -94,6 +140,7 @@ class User {
     required this.createdAt,
     required this.isInfluencer,
     this.role = UserRole.user,
+    this.location,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -105,6 +152,9 @@ class User {
         createdAt: json['createdAt'] as String,
         isInfluencer: json['isInfluencer'] as bool,
         role: UserRole.fromString(json['role'] as String? ?? 'user'),
+        location: json['location'] != null 
+            ? GeoLocation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -116,6 +166,7 @@ class User {
         'createdAt': createdAt,
         'isInfluencer': isInfluencer,
         'role': role.toStringValue(),
+        if (location != null) 'location': location!.toJson(),
       };
 
   bool get isAdmin => role == UserRole.admin || role == UserRole.superadmin;
@@ -134,6 +185,7 @@ class Item {
   final String createdAt;
   final String? officialWebsite; // Added official website field
   final String? wikipediaUrl; // Added wikipedia URL field
+  final GeoLocation? location; // Physical location for location-based items
 
   Item({
     required this.id,
@@ -146,6 +198,7 @@ class Item {
     required this.createdAt,
     this.officialWebsite, // Added official website parameter
     this.wikipediaUrl, // Added wikipedia URL parameter
+    this.location,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -159,6 +212,9 @@ class Item {
         createdAt: json['createdAt'] as String,
         officialWebsite: json['officialWebsite'] as String?, // Added official website from JSON
         wikipediaUrl: json['wikipediaUrl'] as String?, // Added wikipedia URL from JSON
+        location: json['location'] != null 
+            ? GeoLocation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -172,6 +228,7 @@ class Item {
         'createdAt': createdAt,
         'officialWebsite': officialWebsite, // Added official website to JSON
         'wikipediaUrl': wikipediaUrl, // Added wikipedia URL to JSON
+        if (location != null) 'location': location!.toJson(),
       };
 }
 
@@ -191,6 +248,7 @@ class PopularItem extends Item {
     required super.createdAt,
     super.officialWebsite, // Added official website parameter
     super.wikipediaUrl, // Added wikipedia URL parameter
+    super.location,
     required this.popularityScore,
     required this.rankingCount,
     required this.averagePosition,
@@ -207,6 +265,9 @@ class PopularItem extends Item {
         createdAt: json['createdAt'] as String,
         officialWebsite: json['officialWebsite'] as String?, // Added official website from JSON
         wikipediaUrl: json['wikipediaUrl'] as String?, // Added wikipedia URL from JSON
+        location: json['location'] != null 
+            ? GeoLocation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
         popularityScore: (json['popularityScore'] as num).toDouble(),
         rankingCount: json['rankingCount'] as int,
         averagePosition: (json['averagePosition'] as num).toDouble(),
@@ -230,6 +291,7 @@ class UserGroup {
   final List<String> categoryIds;
   final bool isPublic;
   final String createdAt;
+  final GeoLocation? location;
 
   UserGroup({
     required this.id,
@@ -240,6 +302,7 @@ class UserGroup {
     required this.categoryIds,
     required this.isPublic,
     required this.createdAt,
+    this.location,
   });
 
   factory UserGroup.fromJson(Map<String, dynamic> json) => UserGroup(
@@ -251,6 +314,9 @@ class UserGroup {
         categoryIds: List<String>.from(json['categoryIds'] as List),
         isPublic: json['isPublic'] as bool,
         createdAt: json['createdAt'] as String,
+        location: json['location'] != null 
+            ? GeoLocation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -262,6 +328,7 @@ class UserGroup {
         'categoryIds': categoryIds,
         'isPublic': isPublic,
         'createdAt': createdAt,
+        if (location != null) 'location': location!.toJson(),
       };
 }
 
@@ -275,6 +342,7 @@ class ListEntity {
   final int? itemsCount;
   final String? createdAt;
   final String? createdBy;
+  final GeoLocation? location;
 
   ListEntity({
     required this.id,
@@ -286,6 +354,7 @@ class ListEntity {
     this.itemsCount,
     this.createdAt,
     this.createdBy,
+    this.location,
   });
 
   factory ListEntity.fromJson(Map<String, dynamic> json) => ListEntity(
@@ -298,6 +367,9 @@ class ListEntity {
         itemsCount: json['itemsCount'] as int?,
         createdAt: json['createdAt'] as String?,
         createdBy: json['createdBy'] as String?,
+        location: json['location'] != null 
+            ? GeoLocation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -310,6 +382,7 @@ class ListEntity {
         'itemsCount': itemsCount,
         'createdAt': createdAt,
         'createdBy': createdBy,
+        if (location != null) 'location': location!.toJson(),
       };
 }
 

@@ -1,6 +1,17 @@
 // shared/types.ts
 // TypeScript interfaces for backend use
 
+// Location types
+export interface GeoLocation {
+  latitude: number;
+  longitude: number;
+  accuracy?: number;
+  timestamp?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -9,6 +20,7 @@ export interface Category {
   colorHex: string;
   isActive: boolean;
   createdAt: string;
+  isLocationBased?: boolean; // Flag to indicate if this category uses location (e.g., restaurants, hotels)
 }
 
 export enum UserRole {
@@ -27,6 +39,7 @@ export interface User {
   createdAt: string;
   isInfluencer: boolean;
   role: UserRole;
+  location?: GeoLocation; // User's current or last known location
 }
 
 export interface Item {
@@ -46,6 +59,7 @@ export interface Item {
   thumbnailPath?: string; // Added thumbnail path
   enhancedAt?: string;
   enhancedBy?: string;
+  location?: GeoLocation; // Physical location for location-based items (restaurants, hotels, etc.)
 }
 
 export interface PopularItem extends Item {
@@ -63,6 +77,7 @@ export interface UserGroup {
   categoryIds: string[];
   isPublic: boolean;
   createdAt: string;
+  location?: GeoLocation; // Location for location-based groups (e.g., city-specific groups)
 }
 
 export interface ListEntity {
@@ -75,6 +90,7 @@ export interface ListEntity {
   itemsCount?: number;
   createdAt?: string;
   createdBy?: string;
+  location?: GeoLocation; // Location context for the list (e.g., "Best Restaurants in Tokyo")
 }
 
 export interface UserRanking {
