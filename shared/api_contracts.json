@@ -208,6 +208,46 @@
         }
       }
     },
+    "ai": {
+      "generateList": {
+        "method": "POST",
+        "path": "/ai/generate-list",
+        "description": "Generate AI-powered list suggestion based on user idea",
+        "body": {
+          "idea": "string"
+        },
+        "response": {
+          "title": "string",
+          "categoryId": "string",
+          "location": "string?",
+          "items": [
+            {
+              "id": "string",
+              "name": "string",
+              "description": "string",
+              "imageUrl": "string?",
+              "isExisting": "boolean"
+            }
+          ]
+        }
+      },
+      "searchOrCreateItem": {
+        "method": "POST",
+        "path": "/items/search-or-create",
+        "description": "Search for existing item by name or create new one",
+        "body": {
+          "name": "string",
+          "categoryId": "string"
+        },
+        "response": {
+          "id": "string",
+          "name": "string",
+          "description": "string",
+          "imageUrl": "string?",
+          "category": "string"
+        }
+      }
+    },
     "usergroups": {
       "list": {
         "method": "GET",
@@ -350,6 +390,21 @@
         "method": "DELETE",
         "path": "/lists/:id",
         "description": "Delete list"
+      },
+      "search": {
+        "method": "GET",
+        "path": "/lists/search",
+        "description": "Search for similar lists based on query text",
+        "queryParams": {
+          "query": "string"
+        },
+        "response": [
+          {
+            "id": "string",
+            "title": "string",
+            "rankingCount": "number"
+          }
+        ]
       },
       "submitRanking": {
         "method": "POST",
