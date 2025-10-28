@@ -741,3 +741,144 @@ class LikeCommentRequest {
         'userId': userId,
       };
 }
+
+enum ItemContentType {
+  review,
+  instagram,
+  twitter,
+  youtube,
+  tiktok;
+
+  static ItemContentType fromString(String type) {
+    switch (type.toLowerCase()) {
+      case 'review':
+        return ItemContentType.review;
+      case 'instagram':
+        return ItemContentType.instagram;
+      case 'twitter':
+        return ItemContentType.twitter;
+      case 'youtube':
+        return ItemContentType.youtube;
+      case 'tiktok':
+        return ItemContentType.tiktok;
+      default:
+        return ItemContentType.review;
+    }
+  }
+
+  String toStringValue() {
+    switch (this) {
+      case ItemContentType.review:
+        return 'review';
+      case ItemContentType.instagram:
+        return 'instagram';
+      case ItemContentType.twitter:
+        return 'twitter';
+      case ItemContentType.youtube:
+        return 'youtube';
+      case ItemContentType.tiktok:
+        return 'tiktok';
+    }
+  }
+}
+
+class ItemContent {
+  final String id;
+  final String itemId;
+  final String userId;
+  final String username;
+  final String? userProfileImageUrl;
+  final ItemContentType type;
+  final String url;
+  final String title;
+  final String? description;
+  final String? thumbnailUrl;
+  final int likeCount;
+  final bool? likedByCurrentUser;
+  final String createdAt;
+
+  ItemContent({
+    required this.id,
+    required this.itemId,
+    required this.userId,
+    required this.username,
+    this.userProfileImageUrl,
+    required this.type,
+    required this.url,
+    required this.title,
+    this.description,
+    this.thumbnailUrl,
+    required this.likeCount,
+    this.likedByCurrentUser,
+    required this.createdAt,
+  });
+
+  factory ItemContent.fromJson(Map<String, dynamic> json) => ItemContent(
+        id: json['id'] as String,
+        itemId: json['itemId'] as String,
+        userId: json['userId'] as String,
+        username: json['username'] as String,
+        userProfileImageUrl: json['userProfileImageUrl'] as String?,
+        type: ItemContentType.fromString(json['type'] as String),
+        url: json['url'] as String,
+        title: json['title'] as String,
+        description: json['description'] as String?,
+        thumbnailUrl: json['thumbnailUrl'] as String?,
+        likeCount: json['likeCount'] as int,
+        likedByCurrentUser: json['likedByCurrentUser'] as bool?,
+        createdAt: json['createdAt'] as String,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'itemId': itemId,
+        'userId': userId,
+        'username': username,
+        'userProfileImageUrl': userProfileImageUrl,
+        'type': type.toStringValue(),
+        'url': url,
+        'title': title,
+        'description': description,
+        'thumbnailUrl': thumbnailUrl,
+        'likeCount': likeCount,
+        'likedByCurrentUser': likedByCurrentUser,
+        'createdAt': createdAt,
+      };
+}
+
+class CreateItemContentRequest {
+  final String userId;
+  final ItemContentType type;
+  final String url;
+  final String title;
+  final String? description;
+
+  CreateItemContentRequest({
+    required this.userId,
+    required this.type,
+    required this.url,
+    required this.title,
+    this.description,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+        'type': type.toStringValue(),
+        'url': url,
+        'title': title,
+        if (description != null) 'description': description,
+      };
+}
+
+class LikeItemContentRequest {
+  final String userId;
+
+  LikeItemContentRequest({
+    required this.userId,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+      };
+}
+

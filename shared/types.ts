@@ -138,6 +138,29 @@ export interface CommentLike {
   createdAt: string;
 }
 
+export interface ItemContent {
+  id: string;
+  itemId: string;
+  userId: string;
+  username: string;
+  userProfileImageUrl?: string;
+  type: 'review' | 'instagram' | 'twitter' | 'youtube' | 'tiktok';
+  url: string;
+  title: string;
+  description?: string;
+  thumbnailUrl?: string;
+  likeCount: number;
+  likedByCurrentUser?: boolean;
+  createdAt: string;
+}
+
+export interface ItemContentLike {
+  id: string;
+  contentId: string;
+  userId: string;
+  createdAt: string;
+}
+
 // Deprecated - keeping for backward compatibility
 export interface ListItem {
   id: string;
@@ -266,6 +289,26 @@ export interface CreateCommentRequest {
 export interface LikeCommentRequest {
   userId: string;
 }
+
+export interface CreateItemContentRequest {
+  userId: string;
+  type: 'review' | 'instagram' | 'twitter' | 'youtube' | 'tiktok';
+  url: string;
+  title: string;
+  description?: string;
+}
+
+export interface LikeItemContentRequest {
+  userId: string;
+}
+
+export interface ItemContentsQueryParams {
+  page?: number;
+  limit?: number;
+  type?: 'review' | 'instagram' | 'twitter' | 'youtube' | 'tiktok';
+}
+
+// Response types
 
 export interface CommentsQueryParams {
   page?: number;

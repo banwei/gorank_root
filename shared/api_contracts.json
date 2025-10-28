@@ -208,6 +208,48 @@
         }
       }
     },
+    "itemContents": {
+      "list": {
+        "method": "GET",
+        "path": "/items/:itemId/contents",
+        "description": "Get all user-submitted content for an item",
+        "queryParams": {
+          "page": "number?",
+          "limit": "number?",
+          "type": "string?"
+        }
+      },
+      "create": {
+        "method": "POST",
+        "path": "/items/:itemId/contents",
+        "description": "Add user-submitted content to an item",
+        "body": {
+          "userId": "string",
+          "type": "string",
+          "url": "string",
+          "title": "string",
+          "description": "string?"
+        }
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/item-contents/:id",
+        "description": "Delete item content"
+      },
+      "like": {
+        "method": "POST",
+        "path": "/item-contents/:id/like",
+        "description": "Like item content",
+        "body": {
+          "userId": "string"
+        }
+      },
+      "unlike": {
+        "method": "DELETE",
+        "path": "/item-contents/:id/like/:userId",
+        "description": "Unlike item content"
+      }
+    },
     "ai": {
       "generateList": {
         "method": "POST",
@@ -667,6 +709,21 @@
       "username": "string",
       "userProfileImageUrl": "string?",
       "text": "string",
+      "likeCount": "number",
+      "likedByCurrentUser": "boolean?",
+      "createdAt": "string"
+    },
+    "ItemContent": {
+      "id": "string",
+      "itemId": "string",
+      "userId": "string",
+      "username": "string",
+      "userProfileImageUrl": "string?",
+      "type": "string",
+      "url": "string",
+      "title": "string",
+      "description": "string?",
+      "thumbnailUrl": "string?",
       "likeCount": "number",
       "likedByCurrentUser": "boolean?",
       "createdAt": "string"
